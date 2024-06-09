@@ -1,0 +1,5 @@
+fastapi[full]==0.111.0
+pydantic==2.7.3
+SQLAlchemy==2.0.30
+alembic==1.13.1  
+python-dotenv==1.0.1 
