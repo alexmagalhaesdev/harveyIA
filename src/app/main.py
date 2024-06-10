@@ -4,7 +4,7 @@ from core.config import settings
 
 
 def start_application():
-    app = FastAPI(title=settings.PROJECT_TITLE, version=settings.PROJECT_VERSION)
+    app = FastAPI(title=settings.project_title, version=settings.project_version)
     return app
 
 
