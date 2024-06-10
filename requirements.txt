@@ -2,4 +2,6 @@ fastapi[full]==0.111.0
 pydantic==2.7.3
 SQLAlchemy==2.0.30
 alembic==1.13.1  
-python-dotenv==1.0.1 
+python-dotenv==1.0.1
+black==24.4.2 
+flake8==7.0.0 
