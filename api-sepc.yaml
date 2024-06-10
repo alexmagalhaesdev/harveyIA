@@ -1,0 +1,699 @@
+openapi: 3.0.0
+info:
+  title: Harvey AI endpoints
+  description: This is the Endpoint documentation for the Harvey AI RAG
+  version: 1.0.0
+  contact:
+    name: Support Team
+    email: support@mysaas.com
+servers:
+  - url: https://api.mysaas.com/v1
+    description: Production server
+  - url: https://sandbox.api.mysaas.com/v1
+    description: Sandbox server
+paths:
+  /login/apple:
+    post:
+      summary: Log in with Apple
+      requestBody:
+        description: Apple login data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: The Apple authentication token
+              required:
+                - token
+      responses:
+        "200":
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  token:
+                    type: string
+  /login/google:
+    post:
+      summary: Log in with Google
+      requestBody:
+        description: Google login data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: The Google authentication token
+              required:
+                - token
+      responses:
+        "200":
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  token:
+                    type: string
+  /login:
+    post:
+      summary: Log in with email and password
+      requestBody:
+        description: Login data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: User's email address
+                password:
+                  type: string
+                  description: User's password
+              required:
+                - email
+                - password
+      responses:
+        "200":
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  token:
+                    type: string
+  /signup:
+    post:
+      summary: Create an account
+      requestBody:
+        description: Signup data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fullName:
+                  type: string
+                  description: User's full name
+                whatsappNumber:
+                  type: string
+                  description: User's WhatsApp number
+                email:
+                  type: string
+                  description: User's email address
+                password:
+                  type: string
+                  description: User's password
+                confirmPassword:
+                  type: string
+                  description: Confirmation of the user's password
+              required:
+                - fullName
+                - whatsappNumber
+                - email
+                - password
+                - confirmPassword
+      responses:
+        "201":
+          description: Account successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /password/reset:
+    post:
+      summary: Reset password
+      requestBody:
+        description: Email for password recovery
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: User's email address
+              required:
+                - email
+      responses:
+        "200":
+          description: Password reset email sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /chat:
+    get:
+      summary: View chat
+      responses:
+        "200":
+          description: Chat displayed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chatHistory:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        message:
+                          type: string
+                        timestamp:
+                          type: string
+                          format: date-time
+    post:
+      summary: Process prompt in chat
+      requestBody:
+        description: Chat prompt data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                prompt:
+                  type: string
+                  description: The prompt to be processed
+              required:
+                - prompt
+      responses:
+        "200":
+          description: Prompt processed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+  /documents:
+    get:
+      summary: View documents
+      responses:
+        "200":
+          description: Documents displayed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    url:
+                      type: string
+    post:
+      summary: Upload document
+      requestBody:
+        description: Document data
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The document file to upload
+              required:
+                - file
+      responses:
+        "201":
+          description: Document uploaded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  message:
+                    type: string
+    put:
+      summary: Update document
+      requestBody:
+        description: Updated document data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                file:
+                  type: string
+                  format: binary
+                  description: The updated document file
+              required:
+                - id
+                - file
+      responses:
+        "200":
+          description: Document updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    delete:
+      summary: Delete document
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The ID of the document to delete
+      responses:
+        "204":
+          description: Document deleted
+  /templates:
+    get:
+      summary: View templates
+      responses:
+        "200":
+          description: Templates displayed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    content:
+                      type: string
+    post:
+      summary: Create template
+      requestBody:
+        description: Template data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                content:
+                  type: string
+              required:
+                - name
+                - content
+      responses:
+        "201":
+          description: Template created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  message:
+                    type: string
+    put:
+      summary: Update template
+      requestBody:
+        description: Updated template data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                content:
+                  type: string
+              required:
+                - id
+                - name
+                - content
+      responses:
+        "200":
+          description: Template updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    delete:
+      summary: Delete template
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The ID of the template to delete
+      responses:
+        "204":
+          description: Template deleted
+  /legal_sources:
+    get:
+      summary: View legal sources
+      responses:
+        "200":
+          description: Legal sources displayed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    url:
+                      type: string
+    post:
+      summary: Add new legal source
+      requestBody:
+        description: Legal source data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                url:
+                  type: string
+              required:
+                - name
+                - url
+      responses:
+        "201":
+          description: Legal source added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  message:
+                    type: string
+    put:
+      summary: Update legal source
+      requestBody:
+        description: Updated legal source data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                url:
+                  type: string
+              required:
+                - id
+                - name
+                - url
+      responses:
+        "200":
+          description: Legal source updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    delete:
+      summary: Delete legal source
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The ID of the legal source to delete
+      responses:
+        "204":
+          description: Legal source deleted
+  /integrations:
+    get:
+      summary: View integrations
+      responses:
+        "200":
+          description: Integrations displayed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    description:
+                      type: string
+    post:
+      summary: Add new integration
+      requestBody:
+        description: Integration data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+                - name
+                - description
+      responses:
+        "201":
+          description: Integration added
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  message:
+                    type: string
+    put:
+      summary: Update integration
+      requestBody:
+        description: Updated integration data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+                - id
+                - name
+                - description
+      responses:
+        "200":
+          description: Integration updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+    delete:
+      summary: Remove integration
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The ID of the integration to remove
+      responses:
+        "204":
+          description: Integration removed
+  /settings:
+    get:
+      summary: View settings
+      responses:
+        "200":
+          description: Settings displayed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  settings:
+                    type: object
+                    additionalProperties:
+                      type: string
+    post:
+      summary: Update settings
+      requestBody:
+        description: Settings data
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                settings:
+                  type: object
+                  additionalProperties:
+                    type: string
+              required:
+                - settings
+      responses:
+        "200":
+          description: Settings updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /pricing:
+    get:
+      summary: View pricing plans
+      responses:
+        "200":
+          description: Pricing plans displayed
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    planId:
+                      type: string
+                    name:
+                      type: string
+                    price:
+                      type: number
+                      format: float
+                    description:
+                      type: string
+      links:
+        subscribe:
+          operationId: subscribeStripe
+          description: Redirects to Stripe to subscribe to a plan
+          parameters:
+            stripeUrl:
+              description: Stripe URL for subscription
+              schema:
+                type: string
+                format: uri
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        fullName:
+          type: string
+        whatsappNumber:
+          type: string
+        email:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+    Template:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        content:
+          type: string
+    Integration:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    LegalSource:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
