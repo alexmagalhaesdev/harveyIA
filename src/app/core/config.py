@@ -1,23 +1,24 @@
 import os
-from dotenv import load_dotenv
+from pydantic import BaseSettings
+from load_env import load_env
 
-from pathlib import Path
+from configs.database_settings import DatabaseSettings
 
-env_path = Path(".") / ".env"
-load_dotenv(dotenv_path=env_path)
-
-
-class Settings:
-    PROJECT_TITLE: str = "harveyAI"
-    PROJECT_VERSION: str = "0.1.0"
-
-    POSTGRES_USER: str = os.getenv("POSTGRES_USER")
-    POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD")
-    POSTGRES_HOST: str = os.getenv("POSTGRES_HOST")
-    POSTGRES_DB: str = os.getenv("POSTGRES_DB")
-    DATABASE_URL: str = (
-        f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/{POSTGRES_DB}?sslmode=require"
-    )
+load_env()
 
 
-settings = Settings()
+class Settings(BaseSettings):
+    project_title: str
+    project_version: str
+    database: DatabaseSettings = DatabaseSettings.from_env_file()
+
+    @classmethod
+    def from_env_file(cls):
+        return cls(
+            project_title=os.getenv("PROJECT_TITLE", "harveyAI"),
+            project_version=os.getenv("PROJECT_VERSION", "0.1.0"),
+            database=DatabaseSettings.from_env_file(),
+        )
+
+
+settings = Settings.from_env_file()
