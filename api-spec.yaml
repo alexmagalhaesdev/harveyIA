@@ -655,8 +655,10 @@ components:
         fullName:
           type: string
         whatsappNumber:
-          type: string
+          type: integer
         email:
+          type: string
+        passwordHash:
           type: string
         createdAt:
           type: string
@@ -666,34 +668,41 @@ components:
       properties:
         id:
           type: string
-        name:
+        documentName:
           type: string
-        url:
+        documentType:
           type: string
+        uploadDate:
+          type: string
+          format: date-time
     Template:
       type: object
       properties:
         id:
           type: string
-        name:
+        templateName:
           type: string
-        content:
+        templateContent:
+          type: string
+        templateType:
           type: string
     Integration:
       type: object
       properties:
         id:
           type: string
-        name:
+        integrationName:
           type: string
-        description:
+        integrationType:
           type: string
     LegalSource:
       type: object
       properties:
         id:
           type: string
-        name:
+        sourceName:
           type: string
-        url:
+        sourceUrl:
+          type: string
+        sourceType:
           type: string
