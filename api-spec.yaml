@@ -142,7 +142,7 @@ paths:
                 properties:
                   message:
                     type: string
-  /password/reset:
+  /password_reset:
     post:
       summary: Reset password
       requestBody:
