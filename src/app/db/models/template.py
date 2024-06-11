@@ -1,5 +1,6 @@
 from db.base_class import Base
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.sql import func
 
 
@@ -8,5 +9,8 @@ class Template(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     template_name = Column(String, nullable=False, unique=True, index=True)
     template_content = Column(String, nullable=False, unique=True, index=True)
-    template_type = Column(String, nullable=False)
+    template_type = Column(
+        ENUM("Petição", "Apelação", "Contestação", name="template_type_enum"),
+        nullable=False,
+    )
     created_at = Column(DateTime, default=func.now(), nullable=False)
