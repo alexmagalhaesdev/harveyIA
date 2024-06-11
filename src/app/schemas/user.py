@@ -14,6 +14,10 @@ class UserCreate(BaseModel):
     password: str = Field(..., min_length=6)
 
 
+class UserUpdate(UserCreate):
+    pass
+
+
 class ShowUser(BaseModel):
     id: int
     email: EmailStr
