@@ -28,17 +28,13 @@ def update_user(id: int, user: UserUpdate, db: Session):
     user_in_db = db.query(User).filter(User.id == id).first()
 
     if not user_in_db:
-        return
+        return False
 
-    user_in_db.full_name = user.full_name
-    user_in_db.email = user.email
-    user_in_db.phone_number = user.phone_number
-    user_in_db.password_hash = Hasher.get_password_hash(user.password)
+    for field, value in user.dict(exclude_unset=True).items():
+        setattr(user_in_db, field, value)
 
-    db.add(user_in_db)
     db.commit()
-
-    return user_in_db
+    return True
 
 
 def delete_user(id: int, db: Session):

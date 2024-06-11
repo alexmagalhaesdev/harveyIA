@@ -1,8 +1,8 @@
 from fastapi import APIRouter, status, Depends, HTTPException
 from sqlalchemy.orm import Session
 from db.session import get_db_session
-from schemas.user import UserLogin, UserCreate
-from db.repositories.user import create_user, update_user
+from schemas.user import UserLogin, UserCreate, UserUpdate
+from db.repositories.user import create_user, update_user, get_user
 from utils.auth import Auth
 
 router = APIRouter()
@@ -26,12 +26,17 @@ def login(user: UserLogin, db: Session = Depends(get_db_session)):
 
 
 @router.post("/password_reset", status_code=status.HTTP_200_OK)
-def password_reset(
-    email: str, new_password: str, db: Session = Depends(get_db_session)
-):
-    reset_successful = update_user(email, new_password, db)
-    if not reset_successful:
+def password_reset(user: UserUpdate, db: Session = Depends(get_db_session)):
+    user_in_db = get_user(user.email, db)
+    if not user_in_db:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
+
+    reset_successful = update_user(user_in_db.id, user, db)
+    if not reset_successful:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to reset password",
         )
     return {"message": "Password reset successful"}

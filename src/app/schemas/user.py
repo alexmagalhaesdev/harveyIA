@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel, EmailStr, Field
 from pydantic_extra_types.phone_numbers import PhoneNumber
 
@@ -14,8 +15,11 @@ class UserCreate(BaseModel):
     password: str = Field(..., min_length=6)
 
 
-class UserUpdate(UserCreate):
-    pass
+class UserUpdate(BaseModel):
+    full_name: Optional[str] = None
+    email: Optional[str] = None
+    phone_number: Optional[str] = None
+    password: Optional[str] = None
 
 
 class ShowUser(BaseModel):
