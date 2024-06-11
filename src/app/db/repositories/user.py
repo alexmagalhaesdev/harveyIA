@@ -21,6 +21,8 @@ def create_user(user: UserCreate, db: Session):
 def get_user(email: int, db: Session):
     user_in_db = db.query(User).filter(User.email == email).first()
 
+    print(f"meu user {user_in_db}")
+
     return user_in_db
 
 

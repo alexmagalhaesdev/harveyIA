@@ -5,7 +5,7 @@ from typing import Generator
 from core.config import settings
 
 
-engine = create_engine(settings.DATABASE_URL)
+engine = create_engine(settings.database.DATABASE_URL)
 
 SESSIONLOCAL = sessionmaker(autoflush=False, autocommit=False, bind=engine)
 

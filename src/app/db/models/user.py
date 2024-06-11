@@ -6,7 +6,7 @@ from sqlalchemy import (
     DateTime,
 )
 from sqlalchemy.sql import func
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 
 
 class User(Base):
@@ -17,7 +17,7 @@ class User(Base):
     password_hash = Column(String, nullable=False)
     created_at = Column(DateTime, default=func.now(), nullable=False)
 
-    documents = relationship("Document", back_populates="users")
-    chat_messages = relationship("ChatMessage", back_populates="users")
-    templates = relationship("Template", back_populates="users")
-    integrations = relationship("Integration", back_populates="users")
+    documents = relationship("Document", backref=backref("user_document"))
+    chat_messages = relationship("ChatMessage", backref=backref("user_chat_message"))
+    templates = relationship("Template", backref=backref("user_template"))
+    integrations = relationship("Integration", backref=backref("user_integration"))

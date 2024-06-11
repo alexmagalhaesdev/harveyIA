@@ -10,7 +10,7 @@ class UserLogin(BaseModel):
 class UserCreate(BaseModel):
     full_name: str
     email: EmailStr
-    phone_number: PhoneNumber
+    phone_number: int
     password: str = Field(..., min_length=6)
 
 

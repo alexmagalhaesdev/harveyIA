@@ -2,6 +2,7 @@ from db.base_class import Base
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.dialects.postgresql import ENUM
 from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 
 
 class Template(Base):
@@ -14,3 +15,5 @@ class Template(Base):
         nullable=False,
     )
     created_at = Column(DateTime, default=func.now(), nullable=False)
+
+    user = relationship("User", back_populates="templates")
