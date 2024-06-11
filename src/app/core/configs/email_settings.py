@@ -1,4 +1,5 @@
 import os
+from pydantic import EmailStr
 from pydantic_settings import BaseSettings
 from core.load_env import load_env
 
@@ -6,7 +7,7 @@ load_env()
 
 
 class EmailSettings(BaseSettings):
-    MAILGUN_SENDER: str
+    MAILGUN_SENDER: EmailStr
     MAILGUN_DOMAIN: str
     MAILGUN_API_KEY: str
 
