@@ -4,7 +4,7 @@ from db.models.user import User
 from utils.hashing import Hasher
 
 
-def create_new_user(user: UserCreate, db: Session):
+def create_user(user: UserCreate, db: Session):
     user = User(
         full_name=user.full_name,
         email=user.email,
@@ -18,13 +18,13 @@ def create_new_user(user: UserCreate, db: Session):
     return user
 
 
-def retrieve_user(id: int, db: Session):
-    user_in_db = db.query(User).filter(User.id == id).first()
+def get_user(email: int, db: Session):
+    user_in_db = db.query(User).filter(User.email == email).first()
 
     return user_in_db
 
 
-def update_user_by_id(id: int, user: UserUpdate, db: Session):
+def update_user(id: int, user: UserUpdate, db: Session):
     user_in_db = db.query(User).filter(User.id == id).first()
 
     if not user_in_db:
@@ -41,7 +41,7 @@ def update_user_by_id(id: int, user: UserUpdate, db: Session):
     return user_in_db
 
 
-def delete_user_by_id(id: int, db: Session):
+def delete_user(id: int, db: Session):
     user_in_db = db.query(User).filter(User.id == id)
 
     if not user_in_db.first():
