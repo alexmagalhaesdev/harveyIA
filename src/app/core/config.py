@@ -1,8 +1,8 @@
 import os
-from pydantic import BaseSettings
-from load_env import load_env
+from pydantic_settings import BaseSettings
+from core.load_env import load_env
 
-from configs.database_settings import DatabaseSettings
+from core.configs.database_settings import DatabaseSettings
 
 load_env()
 

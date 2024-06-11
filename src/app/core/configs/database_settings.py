@@ -1,7 +1,7 @@
 import os
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from typing import Optional
-from load_env import load_env
+from core.load_env import load_env
 
 load_env()
 

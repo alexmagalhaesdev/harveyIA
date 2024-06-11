@@ -17,7 +17,7 @@ class User(Base):
     password_hash = Column(String, nullable=False)
     created_at = Column(DateTime, default=func.now(), nullable=False)
 
-    documents = relationship("Document", back_populates="user")
-    chat_messages = relationship("ChatMessage", back_populates="user")
-    templates = relationship("Template", back_populates="user")
-    integrations = relationship("Integration", back_populates="user")
+    documents = relationship("Document", back_populates="users")
+    chat_messages = relationship("ChatMessage", back_populates="users")
+    templates = relationship("Template", back_populates="users")
+    integrations = relationship("Integration", back_populates="users")
