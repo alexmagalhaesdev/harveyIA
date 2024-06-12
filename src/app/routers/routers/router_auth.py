@@ -1,4 +1,6 @@
-from fastapi import APIRouter, status, Depends, HTTPException
+from fastapi import APIRouter, status, Depends, HTTPException, Request
+from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from db.session import get_db_session
 from schemas.user import UserLogin, UserCreate
@@ -10,25 +12,78 @@ from utils.email import Email
 router = APIRouter()
 
 
-@router.post("/signup", status_code=status.HTTP_201_CREATED)
-def signup(user: UserCreate, db: Session = Depends(get_db_session)):
-    created_user = create_user(user, db)
-    return created_user
+@router.get("/signup", response_model=HTMLResponse, status_code=status.HTTP_200_OK)
+def signup_get(
+    templates: Jinja2Templates = Depends(),
+    request: Request = Depends(),
+):
+    return templates.TemplateResponse("pages/signup.html", {"request": request})
+
+
+@router.post(
+    "/signup", response_model=HTMLResponse, status_code=status.HTTP_201_CREATED
+)
+def signup_post(
+    new_user: UserCreate,
+    db: Session = Depends(get_db_session),
+    templates: Jinja2Templates = Depends(),
+    request: Request = Depends(),
+):
+    created_user = create_user(new_user, db)
+    if not created_user:
+        # If there was an error in creating the user, display an error message on the same page
+        error_message = "Error creating user. Please try again."
+        return templates.TemplateResponse(
+            "pages/signup.html", {"request": request, "error_message": error_message}
+        )
+    else:
+        # If the user was successfully created, redirect to another page
+        return RedirectResponse(url="/chat")
+
+
+@router.get("/signup", response_model=HTMLResponse, status_code=status.HTTP_200_OK)
+def login_get(
+    templates: Jinja2Templates = Depends(),
+    request: Request = Depends(),
+):
+    return templates.TemplateResponse("pages/login.html", {"request": request})
 
 
 @router.post("/login", status_code=status.HTTP_200_OK)
-def login(user: UserLogin, db: Session = Depends(get_db_session)):
+def login_post(
+    user: UserLogin,
+    db: Session = Depends(get_db_session),
+    templates: Jinja2Templates = Depends(),
+    request: Request = Depends(),
+):
     authenticated_user = Auth.authenticate_user(user, db)
     if not authenticated_user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid username or password",
+        # If authentication fails, redirect to the login page with an error message
+        error_message = "Invalid username or password"
+        return templates.TemplateResponse(
+            "pages/login.html", {"request": request, "error_message": error_message}
         )
-    return {"message": "Login successful"}
+    else:
+        # If authentication succeeds, redirect to another page
+        return RedirectResponse(url="/chat")
 
 
-@router.post("/password_reset", status_code=status.HTTP_200_OK)
-def password_reset(user_email: EmailStr, db: Session = Depends(get_db_session)):
+@router.get(
+    "/password_reset", response_class=HTMLResponse, status_code=status.HTTP_200_OK
+)
+def password_reset_get(request: Request, templates: Jinja2Templates = Depends()):
+    return templates.TemplateResponse("pages/password_reset.html", {"request": request})
+
+
+@router.post(
+    "/password_reset", response_class=HTMLResponse, status_code=status.HTTP_200_OK
+)
+def password_reset_post(
+    user_email: EmailStr,
+    db: Session = Depends(get_db_session),
+    templates: Jinja2Templates = Depends(),
+    request: Request = Depends(),
+):
     user_in_db = get_user(user_email, db)
     if not user_in_db:
         raise HTTPException(
@@ -48,4 +103,6 @@ def password_reset(user_email: EmailStr, db: Session = Depends(get_db_session)):
     email_text = f"Your temporary password is: {temporary_password}"
     Email.send_email(user_email, email_subject, email_text)
 
-    return {"message": "Password reset successful"}
+    return templates.TemplateResponse(
+        "pages/password_reset_sent.html", {"request": request, "user_email": user_email}
+    )

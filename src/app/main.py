@@ -20,7 +20,7 @@ static_files = StaticFiles(directory=str(BASE_DIR / "static"))
 
 def include_router(app):
     """Function to include the router in the FastAPI app."""
-    app.include_router(router)
+    app.include_router(router, templates)
 
 
 def start_application():
