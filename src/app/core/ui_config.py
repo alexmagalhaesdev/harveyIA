@@ -5,6 +5,8 @@ from fastapi.staticfiles import StaticFiles
 # Define the base directory of the project
 BASE_DIR = Path(__file__).resolve().parent
 
+print(f"MEU BASE DIR {BASE_DIR}")
+
 # Create an instance of Jinja2Templates, specifying the directory for templates
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
