@@ -7,18 +7,12 @@ load_env()
 
 
 class EmailSettings(BaseSettings):
-    MAILGUN_SENDER: EmailStr
-    MAILGUN_DOMAIN: str
-    MAILGUN_API_KEY: str
+    EMAIL_SENDER: EmailStr
+    EMAIL_API_KEY: str
 
     @classmethod
     def from_env_file(cls):
         return cls(
-            MAILGUN_SENDER=os.getenv("MAILGUN_SENDER"),
-            MAILGUN_DOMAIN=os.getenv("MAILGUN_DOMAIN"),
-            MAILGUN_API_KEY=os.getenv("MAILGUN_API_KEY"),
+            EMAIL_SENDER=os.getenv("EMAIL_SENDER"),
+            EMAIL_API_KEY=os.getenv("EMAIL_API_KEY"),
         )
-
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"

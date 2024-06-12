@@ -1,5 +1,6 @@
 fastapi[full]==0.111.0
-requests==2.32.3 
+requests==2.32.3
+resend==2.1.0 
 pydantic==2.7.3
 pydantic-settings==2.3.1
 pydantic-extra-types==2.8.0
