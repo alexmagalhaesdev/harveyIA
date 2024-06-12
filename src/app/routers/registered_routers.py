@@ -10,6 +10,7 @@ from routers.routers import (
     router_settings,
 )
 
+
 router = APIRouter()
 
 router.include_router(router_auth.router, prefix="/auth", tags=["auth"])

@@ -1,6 +1,5 @@
 from fastapi import APIRouter, status, Depends, HTTPException, Request
-from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from db.session import get_db_session
 from schemas.user import UserLogin, UserCreate
@@ -8,26 +7,23 @@ from db.repositories.user import create_user, update_user, get_user
 from pydantic import EmailStr
 from utils.auth import Auth
 from utils.email import Email
+from core.ui_config import templates
 
 router = APIRouter()
 
 
-@router.get("/signup", response_model=HTMLResponse, status_code=status.HTTP_200_OK)
+@router.get("/signup", status_code=status.HTTP_200_OK)
 def signup_get(
-    templates: Jinja2Templates = Depends(),
-    request: Request = Depends(),
+    request: Request,
 ):
     return templates.TemplateResponse("pages/signup.html", {"request": request})
 
 
-@router.post(
-    "/signup", response_model=HTMLResponse, status_code=status.HTTP_201_CREATED
-)
+@router.post("/signup", status_code=status.HTTP_201_CREATED)
 def signup_post(
     new_user: UserCreate,
+    request: Request,
     db: Session = Depends(get_db_session),
-    templates: Jinja2Templates = Depends(),
-    request: Request = Depends(),
 ):
     created_user = create_user(new_user, db)
     if not created_user:
@@ -41,10 +37,9 @@ def signup_post(
         return RedirectResponse(url="/chat")
 
 
-@router.get("/signup", response_model=HTMLResponse, status_code=status.HTTP_200_OK)
+@router.get("/signup", status_code=status.HTTP_200_OK)
 def login_get(
-    templates: Jinja2Templates = Depends(),
-    request: Request = Depends(),
+    request: Request,
 ):
     return templates.TemplateResponse("pages/login.html", {"request": request})
 
@@ -52,9 +47,8 @@ def login_get(
 @router.post("/login", status_code=status.HTTP_200_OK)
 def login_post(
     user: UserLogin,
+    request: Request,
     db: Session = Depends(get_db_session),
-    templates: Jinja2Templates = Depends(),
-    request: Request = Depends(),
 ):
     authenticated_user = Auth.authenticate_user(user, db)
     if not authenticated_user:
@@ -68,21 +62,16 @@ def login_post(
         return RedirectResponse(url="/chat")
 
 
-@router.get(
-    "/password_reset", response_class=HTMLResponse, status_code=status.HTTP_200_OK
-)
-def password_reset_get(request: Request, templates: Jinja2Templates = Depends()):
+@router.get("/password_reset", status_code=status.HTTP_200_OK)
+def password_reset_get(request: Request):
     return templates.TemplateResponse("pages/password_reset.html", {"request": request})
 
 
-@router.post(
-    "/password_reset", response_class=HTMLResponse, status_code=status.HTTP_200_OK
-)
+@router.post("/password_reset", status_code=status.HTTP_200_OK)
 def password_reset_post(
     user_email: EmailStr,
+    request: Request,
     db: Session = Depends(get_db_session),
-    templates: Jinja2Templates = Depends(),
-    request: Request = Depends(),
 ):
     user_in_db = get_user(user_email, db)
     if not user_in_db:

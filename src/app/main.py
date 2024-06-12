@@ -1,26 +1,14 @@
 # Application EntryPoint
-from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
-from core.config import settings
-from routers.base import router
-from pathlib import Path
 import uvicorn
-
-
-# Define the base directory of the project
-BASE_DIR = Path(__file__).resolve().parent
-
-# Create an instance of Jinja2Templates, specifying the directory for templates
-templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
-
-# Create an instance of StaticFiles, specifying the directory for static files
-static_files = StaticFiles(directory=str(BASE_DIR / "static"))
+from fastapi import FastAPI
+from core.config import settings
+from core.ui_config import static_files
+from routers.registered_routers import router
 
 
 def include_router(app):
     """Function to include the router in the FastAPI app."""
-    app.include_router(router, templates)
+    app.include_router(router)
 
 
 def start_application():
