@@ -10,9 +10,10 @@ from routers.routers import (
     router_settings,
 )
 
-
+# Create APIRouter instance
 router = APIRouter()
 
+# Register All Routers
 router.include_router(router_auth.router, prefix="/auth", tags=["auth"])
 router.include_router(router_chat.router, prefix="/chat", tags=["chat"])
 router.include_router(router_documents.router, prefix="/documents", tags=["documents"])
