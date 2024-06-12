@@ -1,3 +1,21 @@
+# Frontend stuff:
+
+# Node.js dependencies
+node_modules/
+
+# TailwindCSS JIT cache
+.cache-loader/
+.tailwind-cache/
+.tmp/
+.tailwind/
+
+# PostCSS cache
+.postcss-cache/
+
+# TailwindCSS config
+tailwind.config.js
+tailwind.config.cjs
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

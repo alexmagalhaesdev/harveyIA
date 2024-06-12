@@ -18,3 +18,7 @@ class EmailSettings(BaseSettings):
             MAILGUN_DOMAIN=os.getenv("MAILGUN_DOMAIN"),
             MAILGUN_API_KEY=os.getenv("MAILGUN_API_KEY"),
         )
+
+    class Config:
+        env_file = ".env"
+        env_file_encoding = "utf-8"
