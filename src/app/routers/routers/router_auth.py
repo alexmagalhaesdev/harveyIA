@@ -79,12 +79,12 @@ def password_reset_post(
 
     temporary_password = Auth.generate_temporary_password()
 
-    reset_successful = update_user(user_in_db.id, {"password": temporary_password}, db)
-    if not reset_successful:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to reset password",
-        )
+    # reset_successful = update_user(user_in_db.id, {"password": temporary_password}, db)
+    # if not reset_successful:
+    #    raise HTTPException(
+    #        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+    #        detail="Failed to reset password",
+    #    )
 
     email_subject = "Temporary Password"
     email_text = f"Your temporary password is: {temporary_password}"
