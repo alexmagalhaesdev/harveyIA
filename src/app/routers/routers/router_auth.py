@@ -1,5 +1,5 @@
 from fastapi import APIRouter, status, Depends, HTTPException, Request
-from fastapi.responses import RedirectResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 from db.session import get_db_session
 from schemas.user import UserLogin, UserCreate
@@ -13,9 +13,7 @@ router = APIRouter()
 
 
 @router.get("/signup", status_code=status.HTTP_200_OK)
-def signup_get(
-    request: Request,
-):
+def signup_get(request: Request, response_model=HTMLResponse):
     return templates.TemplateResponse("pages/signup.html", {"request": request})
 
 
@@ -37,7 +35,7 @@ def signup_post(
         return RedirectResponse(url="/chat")
 
 
-@router.get("/signup", status_code=status.HTTP_200_OK)
+@router.get("/login", status_code=status.HTTP_200_OK)
 def login_get(
     request: Request,
 ):
