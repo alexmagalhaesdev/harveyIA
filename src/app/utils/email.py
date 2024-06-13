@@ -5,10 +5,16 @@ from core.config import settings
 class Email:
     # Email variables configuration
     SENDER = settings.email.EMAIL_SENDER
-    resend.api_key = settings.email.EMAIL_API_KEY
+
+    @staticmethod
+    def __set_resend_api_key(api_key: str):
+        """set resend API key."""
+        resend.api_key = api_key
 
     @staticmethod
     def send_email(to: str, subject: str, text: str):
+        Email.__set_resend_api_key(settings.email.EMAIL_API_KEY)
+
         response = resend.Emails.send(
             {
                 "from": Email.SENDER,

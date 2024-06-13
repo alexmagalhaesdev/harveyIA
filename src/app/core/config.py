@@ -4,6 +4,7 @@ from core.load_env import load_env
 
 from core.configs.database_settings import DatabaseSettings
 from core.configs.email_settings import EmailSettings
+from core.configs.storage_settings import StorageSettings
 
 load_env()
 
@@ -13,6 +14,7 @@ class Settings(BaseSettings):
     project_version: str
     database: DatabaseSettings
     email: EmailSettings
+    storage: StorageSettings
 
     @classmethod
     def from_env_file(cls):
@@ -21,6 +23,7 @@ class Settings(BaseSettings):
             project_version=os.getenv("PROJECT_VERSION", "0.1.0"),
             database=DatabaseSettings.from_env_file(),
             email=EmailSettings.from_env_file(),
+            storage=StorageSettings.from_env_file(),
         )
 
 
