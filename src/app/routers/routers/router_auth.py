@@ -1,11 +1,11 @@
 from fastapi import APIRouter, status, Depends, HTTPException, Request
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from db.session import get_db_session
 from schemas.user import UserLogin, UserCreate
-from db.repositories.user import create_user, update_user, get_user
+from db.repositories.user import create_user, get_user
 from pydantic import EmailStr
-from utils.auth import Auth
+from core.security.auth import Auth
 from utils.email import Email
 from core.ui_config import templates
 
@@ -13,7 +13,7 @@ router = APIRouter()
 
 
 @router.get("/signup", status_code=status.HTTP_200_OK)
-def signup_get(request: Request, response_model=HTMLResponse):
+def signup_get(request: Request):
     return templates.TemplateResponse("pages/signup.html", {"request": request})
 
 

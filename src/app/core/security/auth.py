@@ -1,7 +1,7 @@
 import secrets
 import string
 from db.repositories.user import get_user
-from utils.hashing import Hasher
+from core.security.hashing import Hasher
 
 
 class Auth:
