@@ -17,6 +17,3 @@ class EmailSettings(BaseSettings):
             EMAIL_SENDER=os.getenv("EMAIL_SENDER"),
             EMAIL_API_KEY=os.getenv("EMAIL_API_KEY"),
         )
-
-
-print("Configurações de e-mail carregadas:", EmailSettings.from_env_file())
