@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     database: DatabaseSettings
     email: EmailSettings
     storage: StorageSettings
-    payment: PaymentSettings
+    # payment: PaymentSettings
 
     @classmethod
     def from_env_file(cls):
@@ -26,7 +26,7 @@ class Settings(BaseSettings):
             database=DatabaseSettings.from_env_file(),
             email=EmailSettings.from_env_file(),
             storage=StorageSettings.from_env_file(),
-            payment=PaymentSettings.from_env_file(),
+            # payment=PaymentSettings.from_env_file(),
         )
 
 

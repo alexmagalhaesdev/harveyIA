@@ -19,7 +19,9 @@ class Storage:
         return s3_client
 
     @staticmethod
-    def list_objects_in_bucket(bucket: str) -> list:
+    def list_objects_in_bucket(
+        bucket: str = settings.storage.STORAGE_BUCKET_NAME,
+    ) -> list:
         """Lists all objects in a bucket."""
         s3_client = Storage.__get_s3_client()
 
@@ -34,11 +36,14 @@ class Storage:
 
     @staticmethod
     def upload_to_s3(
-        bucket: str, file_path: str, object_data: Union[str, bytes]
+        object_data: Union[str, bytes],
+        bucket: str = settings.storage.STORAGE_BUCKET_NAME,
+        file_path: str = settings.storage.STORAGE_DEFAULT_FILE_PATH,
     ) -> dict:
         """Uploads an object to Amazon S3."""
         s3_client = Storage.__get_s3_client()
 
+        print(f"entrou aqui {object_data}")
         # Convert object data to bytes if it's a string
         if isinstance(object_data, str):
             object_data = object_data.encode()
@@ -47,6 +52,7 @@ class Storage:
             response = s3_client.put_object(
                 Bucket=bucket, Key=file_path, Body=object_data
             )
+            print(f"my response {response}")
             return response
         except Exception as e:
             return {"error": str(e)}
