@@ -1,6 +1,5 @@
 import os
 from pydantic_settings import BaseSettings
-from typing import Optional
 from core.load_env import load_env
 
 load_env()
@@ -11,7 +10,7 @@ class StorageSettings(BaseSettings):
     STORAGE_SECRET_KEY: str
     STORAGE_TOKEN_VALUE: str
     STORAGE_BUCKET_NAME: str
-    STORAGE_CONNECTION_URL: Optional[str] = None
+    STORAGE_CONNECTION_URL: str
 
     @classmethod
     def from_env_file(cls):

@@ -1,6 +1,5 @@
 import os
 from pydantic_settings import BaseSettings
-from typing import Optional
 from core.load_env import load_env
 
 load_env()
@@ -11,7 +10,7 @@ class DatabaseSettings(BaseSettings):
     POSTGRES_PASSWORD: str
     POSTGRES_HOST: str
     POSTGRES_DB: str
-    DATABASE_URL: Optional[str] = None
+    DATABASE_URL: str
 
     @classmethod
     def from_env_file(cls):
