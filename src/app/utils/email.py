@@ -8,7 +8,6 @@ class Email:
 
     @staticmethod
     def __set_resend_api_key(api_key: str):
-        """set resend API key."""
         resend.api_key = api_key
 
     @staticmethod
