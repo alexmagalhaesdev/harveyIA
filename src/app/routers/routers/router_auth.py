@@ -1,5 +1,6 @@
 from fastapi import APIRouter, status, Depends, HTTPException, Request
-from fastapi.responses import RedirectResponse
+from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
 from db.session import get_db_session
 from schemas.user import UserLogin, UserCreate
@@ -12,12 +13,14 @@ from core.ui_config import templates
 router = APIRouter()
 
 
-@router.get("/signup", status_code=status.HTTP_200_OK)
+@router.get("/signup", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
 def signup_get(request: Request):
     return templates.TemplateResponse("pages/signup.html", {"request": request})
 
 
-@router.post("/signup", status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/signup", response_class=HTMLResponse, status_code=status.HTTP_201_CREATED
+)
 def signup_post(
     new_user: UserCreate,
     request: Request,
@@ -35,37 +38,51 @@ def signup_post(
         return RedirectResponse(url="/chat")
 
 
-@router.get("/login", status_code=status.HTTP_200_OK)
+@router.get("/login", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
 def login_get(
     request: Request,
 ):
     return templates.TemplateResponse("pages/login.html", {"request": request})
 
 
-@router.post("/login", status_code=status.HTTP_200_OK)
+@router.post("/login", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
 def login_post(
-    user: UserLogin,
     request: Request,
+    form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db_session),
 ):
-    authenticated_user = Auth.authenticate_user(user, db)
+    authenticated_user = Auth.authenticate_user(
+        form_data.username, form_data.password, db
+    )
     if not authenticated_user:
-        # If authentication fails, redirect to the login page with an error message
-        error_message = "Invalid username or password"
-        return templates.TemplateResponse(
-            "pages/login.html", {"request": request, "error_message": error_message}
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
         )
     else:
-        # If authentication succeeds, redirect to another page
-        return RedirectResponse(url="/chat")
+        access_token = Auth.create_jwt_token(form_data.username)
+        response = templates.TemplateResponse(
+            "pages/chat.html",
+            {
+                "request": request,
+            },
+        )
+        print(f"MEU TOKEN {access_token}")
+        response.set_cookie("Authorization", value=f"Bearer {access_token}")
+        return response
 
 
-@router.get("/password_reset", status_code=status.HTTP_200_OK)
+@router.get(
+    "/password_reset", response_class=HTMLResponse, status_code=status.HTTP_200_OK
+)
 def password_reset_get(request: Request):
     return templates.TemplateResponse("pages/password_reset.html", {"request": request})
 
 
-@router.post("/password_reset", status_code=status.HTTP_200_OK)
+@router.post(
+    "/password_reset", response_class=HTMLResponse, status_code=status.HTTP_200_OK
+)
 def password_reset_post(
     user_email: EmailStr,
     request: Request,

@@ -22,11 +22,5 @@ class UserUpdate(BaseModel):
     password: Optional[str] = None
 
 
-class ShowUser(BaseModel):
+class UserCreated(UserCreate):
     id: int
-    email: EmailStr
-    phone_number: PhoneNumber
-    is_active: bool
-
-    class Config:
-        orm_mode = True

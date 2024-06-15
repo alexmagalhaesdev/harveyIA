@@ -6,6 +6,7 @@ from core.configs.database_settings import DatabaseSettings
 from core.configs.email_settings import EmailSettings
 from core.configs.storage_settings import StorageSettings
 from core.configs.payment_settings import PaymentSettings
+from core.configs.token_settings import TokenSettings
 
 load_env()
 
@@ -16,6 +17,7 @@ class Settings(BaseSettings):
     database: DatabaseSettings
     email: EmailSettings
     storage: StorageSettings
+    token: TokenSettings
     # payment: PaymentSettings
 
     @classmethod
@@ -26,7 +28,7 @@ class Settings(BaseSettings):
             database=DatabaseSettings.from_env_file(),
             email=EmailSettings.from_env_file(),
             storage=StorageSettings.from_env_file(),
-            # payment=PaymentSettings.from_env_file(),
+            token=TokenSettings.from_env_file(),
         )
 
 

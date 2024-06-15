@@ -1,11 +1,18 @@
-from fastapi import APIRouter, Request, File, UploadFile, status, HTTPException
+from fastapi import APIRouter, Request, Depends, File, UploadFile, status, HTTPException
+from fastapi.responses import HTMLResponse
+from core.security.auth_bearer import JWTBearer
 from core.ui_config import templates
 from utils.storage import Storage
 
 router = APIRouter()
 
 
-@router.get("/", status_code=status.HTTP_200_OK)
+@router.get(
+    "/",
+    dependencies=[Depends(JWTBearer())],
+    response_class=HTMLResponse,
+    status_code=status.HTTP_200_OK,
+)
 def list_all_documents(request: Request):
     documents = Storage.list_objects_in_bucket()
     return templates.TemplateResponse(
@@ -13,7 +20,11 @@ def list_all_documents(request: Request):
     )
 
 
-@router.post("/")
+@router.post(
+    "/",
+    dependencies=[Depends(JWTBearer())],
+    response_class=HTMLResponse,
+)
 async def upload_document(request: Request, file: UploadFile = File(...)):
     try:
         file_content = await file.read()
@@ -32,7 +43,11 @@ async def upload_document(request: Request, file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.delete("/{document_id}")
+@router.delete(
+    "/{document_id}",
+    dependencies=[Depends(JWTBearer())],
+    response_class=HTMLResponse,
+)
 def delete_document(document_id: str, request: Request):
     try:
         Storage.delete_from_s3(file_path=document_id)
