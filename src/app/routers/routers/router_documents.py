@@ -1,11 +1,11 @@
-from fastapi import APIRouter, Request, File, UploadFile, HTTPException
+from fastapi import APIRouter, Request, File, UploadFile, status, HTTPException
 from core.ui_config import templates
 from utils.storage import Storage
 
 router = APIRouter()
 
 
-@router.get("/")
+@router.get("/", status_code=status.HTTP_200_OK)
 def list_all_documents(request: Request):
     documents = Storage.list_objects_in_bucket()
     return templates.TemplateResponse(
