@@ -5,17 +5,17 @@ from core.security.hashing import Hasher
 
 
 def create_user(user: UserCreate, db: Session):
-    user = User(
+    new_user = User(
         full_name=user.full_name,
         email=user.email,
         phone_number=user.phone_number,
         password_hash=Hasher.get_password_hash(user.password),
     )
-    db.add(user)
+    db.add(new_user)
     db.commit()
 
-    db.refresh(user)
-    return user
+    db.refresh(new_user)
+    return new_user
 
 
 def get_user(email: str, db: Session):

@@ -49,8 +49,8 @@ def login_get(
 @router.post("/login", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
 def login_post(
     request: Request,
-    form_data=Annotated[OAuth2PasswordRequestForm, Depends()],
-    db=Annotated[Session, Depends(get_db_session)],
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: Session = Depends(get_db_session),
 ):
     authenticated_user = Auth.authenticate_user(
         form_data.username, form_data.password, db
@@ -69,6 +69,7 @@ def login_post(
                 "request": request,
             },
         )
+        print(f"meu token {access_token}")
         response.set_cookie("Authorization", value=f"Bearer {access_token}")
         return response
 
