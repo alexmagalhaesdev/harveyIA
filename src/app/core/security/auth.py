@@ -53,7 +53,7 @@ class Auth:
             return False
 
     @staticmethod
-    async def get_current_user(db: Session, token: str = Depends(oauth2_scheme)):
+    async def get_current_user(token: str = Depends(oauth2_scheme)):
         credentials_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
@@ -69,8 +69,4 @@ class Auth:
         except jwt.JWTError:
             raise credentials_exception
 
-        user = get_user(user_email, db)
-        if user is None:
-            raise credentials_exception
-
-        return user
+        return user_email
