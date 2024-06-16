@@ -70,7 +70,9 @@ def login_post(
             },
         )
         print(f"meu token {access_token}")
-        response.set_cookie("Authorization", value=f"Bearer {access_token}")
+        response.set_cookie(
+            "Authorization", value=f"Bearer {access_token}", httponly=True
+        )
         return response
 
 
