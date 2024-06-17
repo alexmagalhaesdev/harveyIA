@@ -1333,6 +1333,10 @@ html {
   line-height: 1.5rem;
 }
 
+.static {
+  position: static;
+}
+
 .mt-6 {
   margin-top: 1.5rem;
 }
