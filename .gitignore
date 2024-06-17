@@ -12,10 +12,6 @@ node_modules/
 # PostCSS cache
 .postcss-cache/
 
-# TailwindCSS config
-tailwind.config.js
-tailwind.config.cjs
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

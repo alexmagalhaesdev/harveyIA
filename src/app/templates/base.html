@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-theme="lofi" lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -26,10 +26,8 @@
     {% block header %}id="content"
     {% endblock %}
 
-    <div id="content">
-        {% block content %}
-        {% endblock %}
-    </div>
+    {% block content %}
+    {% endblock %}
 
     {% block footer %}
     {% endblock %}
