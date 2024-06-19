@@ -17,24 +17,28 @@ Login
         <div class="p-8 sm:p-12 lg:p-16 w-full max-w-md">
             <h1 class="text-2xl font-semibold mb-6 text-center">Login</h1>
 
-            <!-- Form inputs -->
-            <div class="mb-4">
-                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                <input id="email" type="email" placeholder="Email" class="input input-bordered w-full" />
-            </div>
-            <div class="mb-6">
-                <div class="flex items-center justify-between">
-                    <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
-                    <a href="password_reset" class="text-sm text-red-600 hover:text-red-500"">Forgot
-                        password?</a>
+            <!-- HTMX Form -->
+            <form id="login-form" hx-post="#">
+                <!-- Form inputs -->
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                    <input id="email" name="email" type="email" placeholder="Email"
+                        class="input input-bordered w-full" />
                 </div>
-                <input id=" password" type="password" placeholder="Password" class="input input-bordered w-full" />
+                <div class="mb-6">
+                    <div class="flex items-center justify-between">
+                        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                        <a href="password_reset" class="text-sm text-red-600 hover:text-red-500">Forgot
+                            password?</a>
+                    </div>
+                    <input id="password" name="password" type="password" placeholder="Password"
+                        class="input input-bordered w-full" />
                 </div>
 
                 <!-- Buttons -->
                 <div class="mb-6">
-                    <button type="submit" class="btn btn-primary w-full mb-2">Login</button>
-                    <button class="btn btn-google w-full mb-2"><i class="ph-bold ph-google-logo"></i></i>Login with
+                    <button type="submit" class="btn btn-primary w-full mb-2" hx-target="#login-form">Login</button>
+                    <button class="btn btn-google w-full mb-2"><i class="ph-bold ph-google-logo"></i>Login with
                         Google</button>
                     <button class="btn btn-apple w-full"><i class="ph-fill ph-apple-logo"></i>Login with Apple</button>
                 </div>
@@ -42,11 +46,12 @@ Login
                 <!-- Additional Info -->
                 <p class="text-center text-sm text-gray-500">
                     Not a member?
-                    <a href="signup" class="font-semibold leading-6 text-red-600 hover:text-red-500">Start a 7
-                        day free
-                        trial</a>
+                    <a href="signup" class="font-semibold leading-6 text-red-600 hover:text-red-500">Start a
+                        7
+                        day free trial</a>
                 </p>
-            </div>
+            </form>
         </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}
