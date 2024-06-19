@@ -7,7 +7,7 @@ Dashboard
 {% block content %}
 <div class="h-screen overflow-hidden flex">
     <!-- Side Navigation -->
-    <div class="sidebar bg-red-800 text-white w-64 flex flex-col items-start justify-between py-4">
+    <div class="sidebar bg-red-800 text-white w-60 flex flex-col items-start justify-between py-4">
         <!-- Adicionamos 'items-start' para alinhar itens à esquerda -->
         <div class="p-4 pl-6">
             <!-- Logo ou nome da aplicação -->
@@ -44,19 +44,43 @@ Dashboard
         </nav>
         <div class="p-4 pl-6">
             <!-- Upgrade Plan, Settings, Logout -->
-            <button class="btn btn-primary w-full mb-2">Upgrade Plan <i class="ph ph-sketch-logo"></i></button>
-            <button class="btn btn-secondary w-full mb-2">Settings <i class="ph ph-gear-six"></i></button>
-            <a href="logout" class="block py-2 text-white text-center hover:bg-red-600 hover:text-gray-200">
-                Logout <i class="ph ph-sign-out"></i>
-            </a>
+            <button class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded w-full mb-2">Upgrade
+                Plan <i class="ph ph-sketch-logo text-xl"></i></i></button>
+            <button class="bg-gray-500 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded w-full mb-2">Settings
+                <i class="ph ph-gear-six"></i></button>
+            <a href="logout" class="block py-2 text-white text-center hover:bg-red-600 hover:text-gray-200">Logout <i
+                    class="ph ph-sign-out"></i></a>
         </div>
     </div>
 
     <!-- Main Content (Placeholder) -->
-    <div class="flex-1 bg-gray-100">
+    <div class="flex-1 bg-gray-100 relative">
+        <!-- Top right corner elements -->
+        <div class="absolute top-0 right-0 mt-4 mr-4 flex items-center">
+            <!-- User Avatar -->
+            <div
+                class="bg-gray-300 w-10 h-10 flex rounded items-center justify-center transition duration-100 ease-in-out hover:bg-red-700">
+                <a href="#"><i
+                        class="ph ph-user-circle text-black text-lg transition duration-300 ease-in-out hover:text-white"></i></a>
+            </div>
+            <!-- Notifications Bell -->
+            <div
+                class="ml-4 bg-gray-300 w-10 h-10 flex rounded items-center justify-center transition duration-100 ease-in-out hover:bg-red-700">
+                <a href="#"><i
+                        class="ph ph-bell text-black text-lg transition duration-300 ease-in-out hover:text-white"></i></a>
+            </div>
+            <!-- Settings Button -->
+            <button
+                class="ml-4 bg-gray-300 w-10 h-10 flex rounded items-center justify-center transition duration-100 ease-in-out hover:bg-red-700">
+                <a href="#"><i
+                        class="ph ph-gear-six text-black text-lg transition duration-300 ease-in-out hover:text-white"></i></a>
+            </button>
+        </div>
+
+        <!-- Main Content Area -->
         <div class="p-8 sm:p-12 lg:p-16">
             <h1 class="text-2xl font-semibold mb-6">Dashboard</h1>
-            <p class="text-gray-800">Dashboard's content will here...</p>
+            <p class="text-gray-800">Dashboard's content will go here...</p>
         </div>
     </div>
 </div>
