@@ -11,4 +11,4 @@ router = APIRouter()
     status_code=status.HTTP_200_OK,
 )
 def get_chat(request: Request):
-    return templates.TemplateResponse("pages/dashboard.html", {"request": request})
+    return templates.TemplateResponse("pages/chat.html", {"request": request})
