@@ -19,6 +19,13 @@ def signup_get(request: Request):
     return templates.TemplateResponse("pages/signup.html", {"request": request})
 
 
+@router.get("/create_np", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
+def create_np(request: Request):
+    return templates.TemplateResponse(
+        "pages/create_new_password.html", {"request": request}
+    )
+
+
 @router.post(
     "/signup", response_class=HTMLResponse, status_code=status.HTTP_201_CREATED
 )
