@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}
+Sign Up
+{% endblock %}
+
+{% block content %}
+<div class="h-screen overflow-hidden flex">
+    <!-- Image Section -->
+    <div class="bg-gray-100 flex-1 hidden lg:flex items-center justify-center">
+        <img src="https://cdn.dribbble.com/users/8015/screenshots/665790/attachments/58577/ruby_perfecthue_2560x1600.jpg"
+            alt="Background Image" class="object-cover h-screen">
+    </div>
+
+    <!-- Sign Up Form -->
+    <div class="bg-white flex-1 flex items-center justify-center">
+        <div class="p-8 sm:p-12 lg:p-16 w-full max-w-md">
+            <h1 class="text-2xl font-semibold mb-6 text-center">Sign Up</h1>
+
+            <!-- Form inputs -->
+            <div class="mb-4">
+                <label for="fullname" class="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
+                <input id="fullname" type="text" placeholder="Full Name" class="input input-bordered w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="whatsapp" class="block text-gray-700 text-sm font-bold mb-2">WhatsApp Number</label>
+                <input id="whatsapp" type="text" placeholder="WhatsApp Number" class="input input-bordered w-full" />
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                <input id="email" type="email" placeholder="Email" class="input input-bordered w-full" />
+            </div>
+            <div class="mb-6">
+                <div class="flex items-center justify-between">
+                    <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                </div>
+                <input id="password" type="password" placeholder="Password" class="input input-bordered w-full" />
+            </div>
+
+            <!-- Buttons -->
+            <div class="mb-6">
+                <button type="submit" class="btn btn-primary w-full mb-2">Sign Up</button>
+                <button class="btn btn-google w-full mb-2"><i class="ph-bold ph-google-logo"></i>Sign Up with
+                    Google</button>
+                <button class="btn btn-apple w-full"><i class="ph-fill ph-apple-logo"></i>Sign Up with Apple</button>
+            </div>
+
+            <!-- Additional Info -->
+            <p class="text-center text-sm text-gray-500">
+                Already a member? <a href="login" class="font-semibold text-red-600 hover:text-red-500">Login</a>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
