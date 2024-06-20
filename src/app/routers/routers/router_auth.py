@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, Depends, HTTPException, Request
+from fastapi import APIRouter, status, Depends, HTTPException, Request, Form
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.responses import HTMLResponse, RedirectResponse
 from sqlalchemy.orm import Session
@@ -19,21 +19,15 @@ def signup_get(request: Request):
     return templates.TemplateResponse("pages/signup.html", {"request": request})
 
 
-@router.get("/create_np", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
-def create_np(request: Request):
-    return templates.TemplateResponse(
-        "pages/create_new_password.html", {"request": request}
-    )
-
-
 @router.post(
     "/signup", response_class=HTMLResponse, status_code=status.HTTP_201_CREATED
 )
 def signup_post(
-    new_user: UserCreate,
     request: Request,
-    db: Annotated[Session, Depends(get_db_session)],
+    db: Session = Depends(get_db_session),
+    new_user=Form(...),
 ):
+    print(f"entrou aquiii {new_user}")
     created_user = create_user(new_user, db)
     if not created_user:
         # If there was an error in creating the user, display an error message on the same page
@@ -119,4 +113,11 @@ def password_reset_post(
 
     return templates.TemplateResponse(
         "pages/password_reset_sent.html", {"request": request, "user_email": user_email}
+    )
+
+
+@router.get("/create_np", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
+def create_np(request: Request):
+    return templates.TemplateResponse(
+        "pages/create_new_password.html", {"request": request}
     )

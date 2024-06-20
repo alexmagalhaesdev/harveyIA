@@ -38,22 +38,26 @@ class Auth:
 
         to_encode.update({"exp": expire})
         encoded_jwt = jwt.encode(
-            to_encode, settings.token.SECRET_KEY, algorithm=settings.token.ALGORITHM
+            to_encode,
+            settings.jwt_token.SECRET_KEY,
+            algorithm=settings.jwt_token.ALGORITHM,
         )
         return encoded_jwt
 
     @staticmethod
-    def verify_jwt(token: str) -> bool:
+    def verify_jwt(jwt_token: str) -> bool:
         try:
             jwt.decode(
-                token, settings.token.SECRET_KEY, algorithms=[settings.token.ALGORITHM]
+                jwt_token,
+                settings.jwt_token.SECRET_KEY,
+                algorithms=[settings.jwt_token.ALGORITHM],
             )
             return True
         except jwt.DecodeError:
             return False
 
     @staticmethod
-    async def get_current_user(token: str = Depends(oauth2_scheme)):
+    async def get_current_user(jwt_token: str = Depends(oauth2_scheme)):
         credentials_exception = HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
@@ -61,7 +65,9 @@ class Auth:
         )
         try:
             payload = jwt.decode(
-                token, settings.token.SECRET_KEY, algorithms=[settings.token.ALGORITHM]
+                jwt_token,
+                settings.jwt_token.SECRET_KEY,
+                algorithms=[settings.jwt_token.ALGORITHM],
             )
             user_email: str = payload.get("sub")
             if user_email is None:

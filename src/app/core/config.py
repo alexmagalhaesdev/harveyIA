@@ -3,10 +3,12 @@ from pydantic_settings import BaseSettings
 from core.load_env import load_env
 
 from core.configs.database_settings import DatabaseSettings
+from core.configs.vectordb_settings import VectorDBSettings
 from core.configs.email_settings import EmailSettings
 from core.configs.storage_settings import StorageSettings
-from core.configs.payment_settings import PaymentSettings
-from core.configs.token_settings import TokenSettings
+from app.core.configs.jwttoken_settings import JWTTokenSettings
+
+# from core.configs.payment_settings import PaymentSettings
 
 load_env()
 
@@ -17,7 +19,8 @@ class Settings(BaseSettings):
     database: DatabaseSettings
     email: EmailSettings
     storage: StorageSettings
-    token: TokenSettings
+    jwt_token: JWTTokenSettings
+    vector_db: VectorDBSettings
     # payment: PaymentSettings
 
     @classmethod
@@ -28,7 +31,8 @@ class Settings(BaseSettings):
             database=DatabaseSettings.from_env_file(),
             email=EmailSettings.from_env_file(),
             storage=StorageSettings.from_env_file(),
-            token=TokenSettings.from_env_file(),
+            jwt_token=JWTTokenSettings.from_env_file(),
+            vector_db=VectorDBSettings.from_env_file(),
         )
 
 

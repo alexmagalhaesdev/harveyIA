@@ -5,7 +5,7 @@ from core.load_env import load_env
 load_env()
 
 
-class TokenSettings(BaseSettings):
+class JWTTokenSettings(BaseSettings):
     SECRET_KEY: str
     ALGORITHM: str
 
