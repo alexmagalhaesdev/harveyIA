@@ -7,6 +7,7 @@ from core.configs.vectordb_settings import VectorDBSettings
 from core.configs.email_settings import EmailSettings
 from core.configs.storage_settings import StorageSettings
 from app.core.configs.jwttoken_settings import JWTTokenSettings
+from app.core.configs.openai_settings import OpenAISettings
 
 # from core.configs.payment_settings import PaymentSettings
 
@@ -21,6 +22,7 @@ class Settings(BaseSettings):
     storage: StorageSettings
     jwt_token: JWTTokenSettings
     vector_db: VectorDBSettings
+    openai: OpenAISettings
     # payment: PaymentSettings
 
     @classmethod
@@ -33,6 +35,7 @@ class Settings(BaseSettings):
             storage=StorageSettings.from_env_file(),
             jwt_token=JWTTokenSettings.from_env_file(),
             vector_db=VectorDBSettings.from_env_file(),
+            openai=OpenAISettings.from_env_file(),
         )
 
 
