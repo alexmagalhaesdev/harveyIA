@@ -6,8 +6,8 @@ from core.configs.database_settings import DatabaseSettings
 from core.configs.vectordb_settings import VectorDBSettings
 from core.configs.email_settings import EmailSettings
 from core.configs.storage_settings import StorageSettings
-from app.core.configs.jwttoken_settings import JWTTokenSettings
-from app.core.configs.openai_settings import OpenAISettings
+from core.configs.jwttoken_settings import JWTTokenSettings
+from core.configs.openai_settings import OpenAISettings
 
 # from core.configs.payment_settings import PaymentSettings
 
