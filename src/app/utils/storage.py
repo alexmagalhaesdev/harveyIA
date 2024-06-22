@@ -43,7 +43,6 @@ class Storage:
         """Uploads an object to Amazon S3."""
         s3_client = Storage.__get_s3_client()
 
-        print(f"entrou aqui {object_data}")
         # Convert object data to bytes if it's a string
         if isinstance(object_data, str):
             object_data = object_data.encode()

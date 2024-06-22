@@ -1,15 +1,13 @@
 from fastapi import APIRouter, Request, status
 
-
-# from fastapi.responses import HTMLResponse
-# from core.security.auth_bearer import JWTBearer
 from schemas.chat_message import ChatMessageSchema
-
-from orchestrator.main_orchestrator import query_engine
-
+from orchestrator.orchestrator import PromptOrchestrator
 from core.ui_config import templates
 
 router = APIRouter()
+
+# instance prompt orchestrator class
+rag = PromptOrchestrator()
 
 
 @router.get(
@@ -22,5 +20,5 @@ def get_chat(request: Request):
 
 @router.post("/", status_code=status.HTTP_200_OK)
 def post_chat(user_prompt: ChatMessageSchema):
-    response = query_engine.query(user_prompt.user_prompt)
-    return response
+    response = rag.answer_query(query=user_prompt.user_prompt)
+    return response[0].page_content
