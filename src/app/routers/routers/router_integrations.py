@@ -17,3 +17,33 @@ def list_all_integrations(request: Request):
     return templates.TemplateResponse(
         "pages/integrations.html", {"request": request, "integrations": integrations}
     )
+
+
+@router.post(
+    "/",
+    dependencies=[Depends(JWTBearer())],
+    response_class=HTMLResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def create_integration(request: Request):
+    pass
+
+
+@router.put(
+    "/{integration_id}",
+    dependencies=[Depends(JWTBearer())],
+    response_class=HTMLResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def update_integration(request: Request):
+    pass
+
+
+@router.delete(
+    "/{integration_id}",
+    dependencies=[Depends(JWTBearer())],
+    response_class=HTMLResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def delete_integration(request: Request):
+    pass
