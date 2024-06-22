@@ -55,10 +55,16 @@ class PromptOrchestrator:
         )
 
     def generate_prompt_template(self, query, context):
-        # prompt = hub.pull("rlm/rag-prompt")
-        template = "somestring..."
-        prompt = ChatPromptTemplate.from_template(template)
-        return prompt
+        template = """Answer the question based on the context below. If the question cannot be answered using the information provided, answer with "I don't know".
+
+            Context: {context}
+
+            Question: {query}
+
+            Answer:"""
+        formated_template = str(template.format(query=query, context=context))
+        prompt_template = ChatPromptTemplate.from_template(formated_template)
+        return prompt_template
 
     def create_rag_chain(self, context, prompt):
         rag_chain = (
@@ -67,6 +73,7 @@ class PromptOrchestrator:
             | self.llm
             | StrOutputParser()
         )
+        print(rag_chain.input_schema.schema())
         return rag_chain
 
     def answer_query(self, query: str) -> str:
