@@ -51,7 +51,6 @@ class Storage:
             response = s3_client.put_object(
                 Bucket=bucket, Key=file_path, Body=object_data
             )
-            print(f"my response {response}")
             return response
         except Exception as e:
             return {"error": str(e)}

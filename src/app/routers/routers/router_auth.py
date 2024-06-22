@@ -27,7 +27,6 @@ def signup_post(
     db: Session = Depends(get_db_session),
     new_user=Form(...),
 ):
-    print(f"entrou aquiii {new_user}")
     created_user = create_user(new_user, db)
     if not created_user:
         # If there was an error in creating the user, display an error message on the same page
@@ -70,7 +69,6 @@ def login_post(
                 "request": request,
             },
         )
-        print(f"meu token {access_token}")
         response.set_cookie(
             "Authorization", value=f"Bearer {access_token}", httponly=True
         )

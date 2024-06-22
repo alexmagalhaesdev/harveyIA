@@ -21,4 +21,4 @@ def get_chat(request: Request):
 @router.post("/", status_code=status.HTTP_200_OK)
 def post_chat(user_prompt: ChatMessageSchema):
     response = rag.answer_query(query=user_prompt.user_prompt)
-    return response[0].page_content
+    return response
