@@ -112,10 +112,3 @@ def password_reset_post(
     return templates.TemplateResponse(
         "pages/password_reset_sent.html", {"request": request, "user_email": user_email}
     )
-
-
-@router.get("/create_np", response_class=HTMLResponse, status_code=status.HTTP_200_OK)
-def create_np(request: Request):
-    return templates.TemplateResponse(
-        "pages/create_new_password.html", {"request": request}
-    )

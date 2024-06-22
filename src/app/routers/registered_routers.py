@@ -6,7 +6,6 @@ from routers.routers import (
     router_templates,
     router_legal_source,
     router_integrations,
-    router_pricing,
     router_settings,
 )
 
@@ -24,5 +23,4 @@ router.include_router(
 router.include_router(
     router_integrations.router, prefix="/integrations", tags=["integrations"]
 )
-router.include_router(router_pricing.router, prefix="/pricing", tags=["pricing"])
 router.include_router(router_settings.router, prefix="/settings", tags=["settings"])

@@ -17,3 +17,13 @@ def get_user_settings(request: Request):
     return templates.TemplateResponse(
         "pages/settings.html", {"request": request, "user_settings": user_settings}
     )
+
+
+@router.post(
+    "/",
+    dependencies=[Depends(JWTBearer())],
+    response_class=HTMLResponse,
+    status_code=status.HTTP_200_OK,
+)
+def update_user_settings(request: Request):
+    pass

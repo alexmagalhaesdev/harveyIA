@@ -43,6 +43,15 @@ async def upload_document(request: Request, file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.put(
+    "/{document_id}",
+    dependencies=[Depends(JWTBearer())],
+    response_class=HTMLResponse,
+)
+def update_document(request: Request):
+    pass
+
+
 @router.delete(
     "/{document_id}",
     dependencies=[Depends(JWTBearer())],
