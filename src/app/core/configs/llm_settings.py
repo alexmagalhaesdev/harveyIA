@@ -5,9 +5,9 @@ from core.load_env import load_env
 load_env()
 
 
-class OpenAISettings(BaseSettings):
-    OPENAI_API_KEY: str
+class LLMSettings(BaseSettings):
+    GEMINI_API_KEY: str
 
     @classmethod
     def from_env_file(cls):
-        return cls(OPENAI_API_KEY=os.getenv("OPENAI_API_KEY"))
+        return cls(GEMINI_API_KEY=os.getenv("GEMINI_API_KEY"))

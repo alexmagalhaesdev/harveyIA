@@ -1,4 +1,3 @@
-import os
 from loguru import logger
 from llama_index.core import (
     Settings,
@@ -8,28 +7,27 @@ from llama_index.core import (
 )
 
 from llama_index.readers.file import PDFReader
-from llama_index.llms.replicate import Replicate
+from llama_index.llms.gemini import Gemini
 from llama_index.core.node_parser import SentenceSplitter
-from llama_index.embeddings.fastembed import FastEmbedEmbedding
+from llama_index.embeddings.voyageai import VoyageEmbedding
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 
-from db.vectordb_client import qdrant_client
 
-os.environ["REPLICATE_API_TOKEN"] = "r8_1iGzzmnDEtIIsfTtwnvedBtCWkWk7Vs2wspxG"
+from core.config import settings
+from db.vectordb_client import qdrant_client
 
 try:
     # LLM Model global settings
     logger.info("Setting LLM Model Global Configuration ...")
-    Settings.llm = Replicate(
-        model="meta/llama-2-70b-chat:2796ee9483c3fd7aa2e171d38f4ca12251a30609463dcfd4cd76703f22e96cdf",
-        is_chat_model=True,
-        additional_kwargs={"max_new_tokens": 512},
+    Settings.llm = Gemini(
+        api_key=settings.gemini.GEMINI_API_KEY, model="models/gemini-pro"
     )
 
     # Embedding Model global settings
     logger.info("Setting Embedding Model Global Configuration ...")
-    Settings.embed_model = FastEmbedEmbedding(
-        model_name="BAAI/bge-base-en-v1.5", max_length=384
+    Settings.embed_model = VoyageEmbedding(
+        model_name=settings.voyage_ai.EMBEDDING_MODEL,
+        voyage_api_key=settings.voyage_ai.EMBEDDING_API_KEY,
     )
 
     # Chunk Pattern Global Settings
@@ -49,10 +47,10 @@ try:
 
     # Vector store setup
     logger.info(
-        "Setting up QdrantVectorStore with client=qdrant_client, collection_name='teste' ..."
+        "Setting up QdrantVectorStore with client=qdrant_client, collection_name='law_collection' ..."
     )
     vector_store = QdrantVectorStore(
-        client=qdrant_client, collection_name="pdf_collection"
+        client=qdrant_client, collection_name="law_collection"
     )
 
     # Storage context setup
@@ -60,8 +58,6 @@ try:
         "Creating StorageContext from defaults with vector_store=QdrantVectorStore instance ..."
     )
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
-
-    print(f"my storage context {storage_context}")
 
     # Create index using documents and storage context
     logger.info(

@@ -7,7 +7,8 @@ from core.configs.vectordb_settings import VectorDBSettings
 from core.configs.email_settings import EmailSettings
 from core.configs.storage_settings import StorageSettings
 from core.configs.jwttoken_settings import JWTTokenSettings
-from core.configs.openai_settings import OpenAISettings
+from core.configs.embedding_settings import EmbeddingSettings
+from core.configs.llm_settings import LLMSettings
 
 # from core.configs.payment_settings import PaymentSettings
 
@@ -22,7 +23,8 @@ class Settings(BaseSettings):
     storage: StorageSettings
     jwt_token: JWTTokenSettings
     vector_db: VectorDBSettings
-    openai: OpenAISettings
+    gemini: LLMSettings
+    voyage_ai: EmbeddingSettings
     # payment: PaymentSettings
 
     @classmethod
@@ -35,7 +37,8 @@ class Settings(BaseSettings):
             storage=StorageSettings.from_env_file(),
             jwt_token=JWTTokenSettings.from_env_file(),
             vector_db=VectorDBSettings.from_env_file(),
-            openai=OpenAISettings.from_env_file(),
+            gemini=LLMSettings.from_env_file(),
+            voyage_ai=EmbeddingSettings.from_env_file(),
         )
 
 
