@@ -4,6 +4,7 @@ from llama_index.core import (
     VectorStoreIndex,
     SimpleDirectoryReader,
     StorageContext,
+    ServiceContext,
 )
 
 from llama_index.readers.file import PDFReader
@@ -19,13 +20,11 @@ from db.vectordb_client import qdrant_client
 try:
     # LLM Model global settings
     logger.info("Setting LLM Model Global Configuration ...")
-    Settings.llm = Gemini(
-        api_key=settings.gemini.GEMINI_API_KEY, model="models/gemini-pro"
-    )
+    Settings.llm = None
 
     # Embedding Model global settings
     logger.info("Setting Embedding Model Global Configuration ...")
-    Settings.embed_model = VoyageEmbedding(
+    embed_model = VoyageEmbedding(
         model_name=settings.voyage_ai.EMBEDDING_MODEL,
         voyage_api_key=settings.voyage_ai.EMBEDDING_API_KEY,
     )
@@ -59,12 +58,20 @@ try:
     )
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
+    # Service Context
+    logger.info("Setting up Service Context' ...")
+    service_context = ServiceContext.from_defaults(
+        llm=None, llm_predictor=None, embed_model=embed_model
+    )
+
     # Create index using documents and storage context
     logger.info(
         "Creating VectorStoreIndex from loaded documents and StorageContext ..."
     )
     vector_index = VectorStoreIndex.from_documents(
-        documents=documents, storage_context=storage_context
+        documents=documents,
+        storage_context=storage_context,
+        service_context=service_context,
     )
     logger.info("VectorStoreIndex created successfully")
 
